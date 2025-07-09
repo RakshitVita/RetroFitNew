@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Upload } from 'lucide-react';
+//import { Upload } from 'lucide-react';
 import './Home.css';
+import { FaCloudUploadAlt } from "react-icons/fa";
+
 
 const Home = () => {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -53,7 +55,7 @@ const Home = () => {
             {/* Upload Icon */}
             <div className="upload-icon-wrapper">
               <div className="upload-icon">
-                <Upload size={32} color="#ffffff" />
+                <FaCloudUploadAlt size={64} color="adb5bd" />
               </div>
             </div>
 

@@ -33,6 +33,7 @@ const Navbar = () => {
               <FaList className="icon" />
               Dashboard
             </a>
+            
             <div className="dropdown-divider" />
             <a className="dropdown-item" href="#">
               <FaSignOutAlt className="icon" />
