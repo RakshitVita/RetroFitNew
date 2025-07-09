@@ -30,21 +30,22 @@
 }
 
 .upload-card {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-  padding: 40px;
+  background-color: transparent; /* match .upload-area */
+  border: none;                  /* remove solid border */
+  box-shadow: none;              /* remove shadow if needed */
+  padding: 0;                    /* remove inner padding */
 }
 
 .upload-area {
-  border: 2px dashed #d1d5db;
-  border-radius: 8px;
+  border: 2px dashed #dce1e7;
+  border-radius: 16px;
   padding: 64px 32px;
   text-align: center;
-  background-color: #f9fafb;
+  background-color: white;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  
 }
 
 .upload-area.drag-over {
@@ -61,7 +62,7 @@
 .upload-icon {
   width: 64px;
   height: 64px;
-  background-color: #9ca3af;
+  background-color: transparent;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -69,14 +70,14 @@
 }
 
 .upload-main-text {
-  font-size: 18px;
+  font-size: 27px;
   font-weight: 500;
   color: #111827;
   margin: 0 0 8px 0;
 }
 
 .upload-subtext {
-  font-size: 14px;
+  font-size: 16px;
   color: #6b7280;
   margin: 0 0 32px 0;
 }
@@ -86,11 +87,11 @@
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
-  background-color: #2563eb;
+  background-color: #003cff;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
-  border-radius: 6px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
@@ -98,7 +99,7 @@
 }
 
 .upload-button:hover {
-  background-color: #1d4ed8;
+  background-color: #002ecc;
 }
 
 .upload-input {
