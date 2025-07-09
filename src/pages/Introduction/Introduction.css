@@ -1,0 +1,51 @@
+.welcome-wrapper {
+  width: 100%;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.welcome-section {
+  max-width: 1000px;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.heading {
+  font-size: 28px;
+  color: #3b82f6; /* Similar to Bootstrap's text-primary */
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  text-align: justify;
+  padding: 0 10px;
+}
+
+/* Responsive tweaks */
+@media screen and (max-width: 768px) {
+  .heading {
+    font-size: 22px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .heading {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+}
