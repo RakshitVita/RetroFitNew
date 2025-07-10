@@ -20,6 +20,7 @@ const Mainpage = () => {
   const [languagelimiterror, setLanguagelimiterror] = useState(false);
   const [formatError, setFormatError] = useState('');
   const fileInputRef = useRef(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   //For DialogBox
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -197,8 +198,18 @@ const Mainpage = () => {
   };
 
   // Intercept drag and drop
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragOver(false);
+  };
+
   const handleDrop = async (e) => {
     e.preventDefault();
+    setIsDragOver(false); // reset drag-over state
     if (!authUser) {
       setShowLoginPopup(true);
       return;
@@ -209,9 +220,6 @@ const Mainpage = () => {
     }
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
   if (UserStatusLoading) {
     return (
       <div className="loader-fullscreen">
@@ -231,82 +239,82 @@ const Mainpage = () => {
             That Gets You Back on Track.
           </h1>
         </div>
-        <div className="upload-area">
-
-
-          
-            
-            {/* Upload Icon */}
-            <div className="upload-icon-wrapper">
-              <div className="upload-icon">
-                <FaCloudUploadAlt size={64} color="adb5bd" />
-              </div>
+        <div
+          className={`upload-area ${isDragOver ? 'dragover' : ''}`}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+        >
+          {/* Upload Icon */}
+          <div className="upload-icon-wrapper">
+            <div className="upload-icon">
+              <FaCloudUploadAlt size={64} color="adb5bd" />
             </div>
+          </div>
 
-            <p className="upload-main-text">
-              Select a file or drag and drop here
+          <p className="upload-main-text">
+            Select a file or drag and drop here
+          </p>
+
+          <div className="dropdown-section">
+            <label htmlFor="fileType">Choose your Code</label>
+            <select
+              id="fileType"
+              value={fileType}
+              onChange={handleFiletypeChange}
+            >
+              {languages.map(lang => (
+                <option key={lang} value={lang}>{lang}</option>
+              ))}
+            </select>
+          </div>
+          <div className="file-info">
+            {fileType && extensions[fileType]
+              ? `Allowed: ${extensions[fileType].join(", ")}`
+              : ""}
+            &nbsp; (max: 10MB). Up to 400 lines of code allowed.
+          </div>
+
+          {/* Error messages */}
+          {lineLimitError && <p className='error-text'> {lineLimitError} </p>}
+          {formatError && <p className="error-text">{formatError}</p>}
+          {languagelimiterror && (
+            <p style={{ color: 'red', marginTop: '8px' }}>
+              This language is not allowed for your account. Allowed: {allowedLanguages.join(", ")}
             </p>
+          )}
 
-            <div className="dropdown-section">
-              <label htmlFor="fileType">Choose your Code</label>
-              <select
-                id="fileType"
-                value={fileType}
-                onChange={handleFiletypeChange}
-              >
-                {languages.map(lang => (
-                  <option key={lang} value={lang}>{lang}</option>
-                ))}
-              </select>
+          {/* Status and Download */}
+          {file && (
+            <div className="status-container">
+              <span className="file-name">{file.name}</span>
+              <span className="status">
+                {isLoading ? (
+                  <>
+                    <RiLoader2Line className="rotating" size={20} color="#0b3d91" />
+                    &nbsp; Processing...
+                  </>
+                ) : conRedMessage ? (
+                  (() => {
+                    // Show toast and navigate only once
+                    if (!window.__hasNavigatedToDownloads) {
+                      window.__hasNavigatedToDownloads = true;
+                      toast.success(conRedMessage || "File converted successfully!");
+                      setTimeout(() => {
+                        navigate("/downloads");
+                        window.__hasNavigatedToDownloads = false;
+                      }, 1200); // Delay for user to see the toast
+                    }
+                    return null;
+                  })()
+                ) : null}
+              </span>
             </div>
-            <div className="file-info">
-              {fileType && extensions[fileType]
-                ? `Allowed: ${extensions[fileType].join(", ")}`
-                : ""}
-              &nbsp; (max: 10MB). Up to 400 lines of code allowed.
-            </div>
+          )}
 
-            {/* Error messages */}
-            {lineLimitError && <p className='error-text'> {lineLimitError} </p>}
-            {formatError && <p className="error-text">{formatError}</p>}
-            {languagelimiterror && (
-              <p style={{ color: 'red', marginTop: '8px' }}>
-                This language is not allowed for your account. Allowed: {allowedLanguages.join(", ")}
-              </p>
-            )}
 
-            {/* Status and Download */}
-            {file && (
-              <div className="status-container">
-                <span className="file-name">{file.name}</span>
-                <span className="status">
-                  {isLoading ? (
-                    <>
-                      <RiLoader2Line className="rotating" size={20} color="#0b3d91" />
-                      &nbsp; Processing...
-                    </>
-                  ) : conRedMessage ? (
-                    (() => {
-                      // Show toast and navigate only once
-                      if (!window.__hasNavigatedToDownloads) {
-                        window.__hasNavigatedToDownloads = true;
-                        toast.success(conRedMessage || "File converted successfully!");
-                        setTimeout(() => {
-                          navigate("/downloads");
-                          window.__hasNavigatedToDownloads = false;
-                        }, 1200); // Delay for user to see the toast
-                      }
-                      return null;
-                    })()
-                  ) : null}
-                </span>
-              </div>
-            )}
-
-          
 
           <label
-
             className={`upload-button ${!allowedLanguages.includes(fileType) ? 'disabled-upload' : ''}`}
             onClick={handleUploadAreaClick}
             onDrop={handleDrop}
@@ -326,9 +334,6 @@ const Mainpage = () => {
             />
             Select a File
           </label>
-
-
-
         </div>
       </div>
 

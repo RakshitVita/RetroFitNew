@@ -21,7 +21,7 @@
 
 
 .upload-container {
-  min-height: 80vh;
+  height: 80vh;
   background-color: #f8f9fa;
   display: flex;
   align-items: center;
@@ -97,6 +97,7 @@ select {
 }
 
 .upload-area {
+  max-height: 60vh;
   border: 2px dashed #dce1e7;
   border-radius: 16px;
   padding: 64px 32px;
@@ -110,16 +111,6 @@ select {
 
 
 
-
-.upload-inline {
-  display: inline;
-  font-size: 16px;
-  vertical-align: middle;
-  white-space: normal;
-  word-break: break-word;
-  height: 300px;
-}
-
 .file-input {
   display: none;
   color: "#888";           
@@ -129,13 +120,6 @@ select {
   pointer-events: none;
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-.upload-label {
-  display: block;
-  cursor: pointer;
-  color: #333;
-
 }
 
 .upload-icon-wrapper {
@@ -156,21 +140,6 @@ select {
   
 }
 
-.upload-text {
-  font-weight: bold;
-  color: #0056d2;
-  margin-bottom: 4px;
-  font-size: 18px;
-  display: block;
-}
-
-.upload-or {
-  color: #222;
-  margin-bottom: 10px;
-  font-size: 16px;
-  display: block;
-}
-
 .file-info {
   color: #888;
   font-size: 13px;
@@ -188,7 +157,7 @@ select {
 
 
 .status-container {
-  margin-top: 25px;
+  margin: 25px 0 ;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -202,11 +171,7 @@ select {
   box-sizing: border-box;
 }
 
-.status-left {
-  display: flex;
-  align-items: center;
-  gap: 24px; /* Adjust for spacing between file name and status */
-}
+
 
 .file-name {
   flex: 1;
@@ -224,22 +189,6 @@ select {
   justify-content: center;
   gap: 8px;
   white-space: nowrap;
-}
-
-.status.converting {
-  color: #0b3d91;
-}
-
-.status.converted {
-  color: #28a745;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.status.converted svg {
-  fill: #28a745;
-  stroke: none;
 }
 
 /* Mainpage.css */
@@ -260,13 +209,6 @@ select {
 
 .rotating {
   animation: spin 1s linear infinite;
-}
-
-.tick-icon {
-  width: 20px;
-  height: 20px;
-  fill: #28a745;
-  stroke: none;
 }
 
 .modal-backdrop {

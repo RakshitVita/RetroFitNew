@@ -7,22 +7,25 @@ import Download from '../pages/DownloadPage/Download.jsx';
 import Subscription from '../pages/Subscription/Subscription.jsx';
 import Introduction from '../pages/Introduction/Introduction.jsx';
 import Homepage from '../pages/MainPage/Homepage.jsx';
-// import Home from './pages/Home';
-// import Introduction from './pages/Introduction';
-// import DownloadLog from './pages/DownloadLog';
-// import Subscription from './pages/Subscription';
+import ProtectedRoute from '../utils/protectedRoute.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainPage/>,
+    element: <MainPage />,
     children: [
-      { path: '/dashboard', element: <Dashboard /> },
-      { path: '/home', element:  <Home/>},
-      { path: '/introduction', element: <Introduction/> },
-      { path: '/download-log', element:  <Download /> },
-      { path: '/subscription', element:  <Subscription />},
-      { path: '/mainpage', element:  <Homepage/>},
+      { path: '/demo', element: <Home /> },
+      { path: '/introduction', element: <Introduction /> },
+      { path: '/home', element: <Homepage /> },
+      {
+        element: <ProtectedRoute/>,
+        children: [
+          { path: '/dashboard', element: <Dashboard /> },
+          { path: '/download-log', element: <Download /> },
+          { path: '/subscription', element: <Subscription /> },
+          
+        ],
+      },
     ],
   },
 ]);

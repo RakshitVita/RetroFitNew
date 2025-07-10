@@ -23,6 +23,7 @@ const useAuthStore = create((set) => (
                 const userCookie = Cookies.get("user");
                 if (token && userCookie) {
                     set({ authUser: JSON.parse(userCookie), isChecking: false });
+                    console.log("User is authenticated", JSON.parse(userCookie));
                     return;
                 }
                 // If no user or token, clear authUser

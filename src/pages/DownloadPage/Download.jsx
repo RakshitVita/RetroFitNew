@@ -2,92 +2,92 @@ import React, { useEffect, useState, useMemo } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Box, CircularProgress, IconButton, Tooltip, TextField, Typography } from "@mui/material";
 import { FiDownload, FiInfo } from "react-icons/fi";
-// import useUserStore from "../../../Zustand_State/UserStore";
-// import useAuthStore from "../../../Zustand_State/AuthStore";
+import useUserStore from "../../Zustand_State/UserStore";
+import useAuthStore from "../../Zustand_State/AuthStore";
 import InfoTooltip from "../../components/Tooltipinfo/InfoTooltip";
 import "./Download.css"; // <-- Import your CSS
 
 const Download = () => {
-  // const { downloads, downloadsLoading, fetchDownloads, getAndDownloadFile } = useUserStore();
-  // const { authUser } = useAuthStore();
+  const { downloads, downloadsLoading, fetchDownloads, getAndDownloadFile } = useUserStore();
+  const { authUser } = useAuthStore();
   const [downloadingId, setDownloadingId] = useState(null);
   const [pageSize, setPageSize] = useState(5);
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(0);
 
-  const downloadsLoading = false;
-  const downloads = [
-    {
-      file_id: "001",
-      language: "JavaScript",
-      created_at: "2025-07-08 14:32",
-      filename: "main-app.js",
-      file_size: "45 KB",
-      code_lines: 320,
-      total_credit_used: 8.5,
-      url: "https://example.com/download/001",
-      sub_file_details: [
-        { name: "utils.js", size: "12 KB" },
-        { name: "constants.js", size: "5 KB" }
-      ]
-    },
-    {
-      file_id: "002",
-      language: "Python",
-      created_at: "2025-07-07 09:12",
-      filename: "predictor.py",
-      file_size: "89 KB",
-      code_lines: 580,
-      total_credit_used: 13.2,
-      url: "https://example.com/download/002",
-      sub_file_details: []
-    },
-    {
-      file_id: "003",
-      language: "SQL",
-      created_at: "2025-07-06 18:45",
-      filename: "query.sql",
-      file_size: "12 KB",
-      code_lines: 75,
-      total_credit_used: null,
-      url: "",
-      sub_file_details: []
-    },
-    {
-      file_id: "004",
-      language: "Java",
-      created_at: "2025-07-05 11:10",
-      filename: "LoginService.java",
-      file_size: "67 KB",
-      code_lines: 410,
-      total_credit_used: 9.7,
-      url: "https://example.com/download/004",
-      sub_file_details: [
-        { name: "AuthHelper.java", size: "22 KB" }
-      ]
-    },
-    {
-      file_id: "005",
-      language: "C++",
-      created_at: "2025-07-04 16:27",
-      filename: "engine.cpp",
-      file_size: "130 KB",
-      code_lines: 900,
-      total_credit_used: 17.6,
-      url: "https://example.com/download/005",
-      sub_file_details: []
-    }
-  ];
-
-  // useEffect(() => {
-  //   if (authUser) {
-  //     fetchDownloads();
+  // const downloadsLoading = false;
+  // const downloads = [
+  //   {
+  //     file_id: "001",
+  //     language: "JavaScript",
+  //     created_at: "2025-07-08 14:32",
+  //     filename: "main-app.js",
+  //     file_size: "45 KB",
+  //     code_lines: 320,
+  //     total_credit_used: 8.5,
+  //     url: "https://example.com/download/001",
+  //     sub_file_details: [
+  //       { name: "utils.js", size: "12 KB" },
+  //       { name: "constants.js", size: "5 KB" }
+  //     ]
+  //   },
+  //   {
+  //     file_id: "002",
+  //     language: "Python",
+  //     created_at: "2025-07-07 09:12",
+  //     filename: "predictor.py",
+  //     file_size: "89 KB",
+  //     code_lines: 580,
+  //     total_credit_used: 13.2,
+  //     url: "https://example.com/download/002",
+  //     sub_file_details: []
+  //   },
+  //   {
+  //     file_id: "003",
+  //     language: "SQL",
+  //     created_at: "2025-07-06 18:45",
+  //     filename: "query.sql",
+  //     file_size: "12 KB",
+  //     code_lines: 75,
+  //     total_credit_used: null,
+  //     url: "",
+  //     sub_file_details: []
+  //   },
+  //   {
+  //     file_id: "004",
+  //     language: "Java",
+  //     created_at: "2025-07-05 11:10",
+  //     filename: "LoginService.java",
+  //     file_size: "67 KB",
+  //     code_lines: 410,
+  //     total_credit_used: 9.7,
+  //     url: "https://example.com/download/004",
+  //     sub_file_details: [
+  //       { name: "AuthHelper.java", size: "22 KB" }
+  //     ]
+  //   },
+  //   {
+  //     file_id: "005",
+  //     language: "C++",
+  //     created_at: "2025-07-04 16:27",
+  //     filename: "engine.cpp",
+  //     file_size: "130 KB",
+  //     code_lines: 900,
+  //     total_credit_used: 17.6,
+  //     url: "https://example.com/download/005",
+  //     sub_file_details: []
   //   }
-  // }, [authUser, fetchDownloads]);
+  // ];
+
+  useEffect(() => {
+    if (authUser) {
+      fetchDownloads();
+    }
+  }, [authUser, fetchDownloads]);
 
   const handleDownload = async (filename, fileId) => {
     setDownloadingId(fileId);
-    // await getAndDownloadFile(filename, fileId);
+    await getAndDownloadFile(filename, fileId);
     setTimeout(() => setDownloadingId(null), 1000);
   };
 
