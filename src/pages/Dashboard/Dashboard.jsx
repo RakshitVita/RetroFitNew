@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardCard from '../../components/Dashboardcard/Dashboardcard';
 import { ClipboardList, Download } from 'lucide-react';
-import MyBarChart from '../../components/MyBarChart';
+// import MyBarChart from '../../components/MyBarChart';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -32,10 +32,10 @@ const Dashboard = () => {
       </div>
 
       {/* Replaced with amChart */}
-      <div className="chart-wrapper">
+      {/* <div className="chart-wrapper">
         <h4>Chart Overview</h4>
         <MyBarChart />
-      </div>
+      </div> */}
     </div>
   );
 };
