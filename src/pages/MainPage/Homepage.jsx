@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import "./Homepage.css";
+import { FaCloudUploadAlt } from "react-icons/fa";
+
 
 let hasFetchedUserStatusGlobal = false;
 
@@ -220,107 +222,114 @@ const Mainpage = () => {
   }
 
   return (
-    <>
-      <div className="upload-container">
-        <h2>CONVERT CODE TO DOCUMENT</h2>
-        <p className="description">
-          Auto-generate detailed documentation from any code snippet.
-          <br />
-          Break down logic, syntax, and structure step by step.
-          <br />
-          Ideal for teaching, reviewing, or sharing.
-        </p>
-
-        <div className="dropdown-section">
-          <label htmlFor="fileType">Choose your Code</label>
-          <select
-            id="fileType"
-            value={fileType}
-            onChange={handleFiletypeChange}
-          >
-            {languages.map(lang => (
-              <option key={lang} value={lang}>{lang}</option>
-            ))}
-          </select>
+    <div className="upload-container">
+      <div className="upload-wrapper">
+        {/* Header */}
+        <div className="upload-header">
+          <h1 className="upload-title">
+            From Roadblock to Roadmap — Documentation<br />
+            That Gets You Back on Track.
+          </h1>
         </div>
+        <div className="upload-area">
 
-        <div
-          className={`upload-area ${!allowedLanguages.includes(fileType) ? 'disabled-upload' : ''}`}
-          onClick={handleUploadAreaClick}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          tabIndex={0}
-          style={{ cursor: "pointer" }}
-        >
-          <span className="upload-inline">
-            <span className="upload-icon" style={{ verticalAlign: "middle", fontSize: "28px" }}>
-              📄
-            </span>
-            <span
-              className="upload-text"
-              style={{
-                color: "#0056d2",
-                fontWeight: "bold",
-                margin: "0 6px",
-              }}
-            >
-              Click to upload
-            </span>
-            or Drag and Drop File or Image.
-            <span className="file-info">
+
+          
+            
+            {/* Upload Icon */}
+            <div className="upload-icon-wrapper">
+              <div className="upload-icon">
+                <FaCloudUploadAlt size={64} color="adb5bd" />
+              </div>
+            </div>
+
+            <p className="upload-main-text">
+              Select a file or drag and drop here
+            </p>
+
+            <div className="dropdown-section">
+              <label htmlFor="fileType">Choose your Code</label>
+              <select
+                id="fileType"
+                value={fileType}
+                onChange={handleFiletypeChange}
+              >
+                {languages.map(lang => (
+                  <option key={lang} value={lang}>{lang}</option>
+                ))}
+              </select>
+            </div>
+            <div className="file-info">
               {fileType && extensions[fileType]
                 ? `Allowed: ${extensions[fileType].join(", ")}`
                 : ""}
               &nbsp; (max: 10MB). Up to 400 lines of code allowed.
-            </span>
-          </span>
-          <input
-            type="file"
-            id="fileUpload"
-            className="file-input"
-            onChange={handleFileChange}
-            tabIndex={-1}
-            ref={fileInputRef}
-            style={{ display: "none" }}
-          />
+            </div>
+
+            {/* Error messages */}
+            {lineLimitError && <p className='error-text'> {lineLimitError} </p>}
+            {formatError && <p className="error-text">{formatError}</p>}
+            {languagelimiterror && (
+              <p style={{ color: 'red', marginTop: '8px' }}>
+                This language is not allowed for your account. Allowed: {allowedLanguages.join(", ")}
+              </p>
+            )}
+
+            {/* Status and Download */}
+            {file && (
+              <div className="status-container">
+                <span className="file-name">{file.name}</span>
+                <span className="status">
+                  {isLoading ? (
+                    <>
+                      <RiLoader2Line className="rotating" size={20} color="#0b3d91" />
+                      &nbsp; Processing...
+                    </>
+                  ) : conRedMessage ? (
+                    (() => {
+                      // Show toast and navigate only once
+                      if (!window.__hasNavigatedToDownloads) {
+                        window.__hasNavigatedToDownloads = true;
+                        toast.success(conRedMessage || "File converted successfully!");
+                        setTimeout(() => {
+                          navigate("/downloads");
+                          window.__hasNavigatedToDownloads = false;
+                        }, 1200); // Delay for user to see the toast
+                      }
+                      return null;
+                    })()
+                  ) : null}
+                </span>
+              </div>
+            )}
+
+          
+
+          <label
+
+            className={`upload-button ${!allowedLanguages.includes(fileType) ? 'disabled-upload' : ''}`}
+            onClick={handleUploadAreaClick}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            tabIndex={0}
+            style={{ cursor: "pointer" }}
+          >
+
+            <input
+              type="file"
+              id="fileUpload"
+              className="file-input"
+              onChange={handleFileChange}
+              tabIndex={-1}
+              ref={fileInputRef}
+              style={{ display: "none" }}
+            />
+            Select a File
+          </label>
+
+
+
         </div>
-
-        {/* Error messages */}
-        {lineLimitError && <p className='error-text'> {lineLimitError} </p>}
-        {formatError && <p className="error-text">{formatError}</p>}
-        {languagelimiterror && (
-          <p style={{ color: 'red', marginTop: '8px' }}>
-            This language is not allowed for your account. Allowed: {allowedLanguages.join(", ")}
-          </p>
-        )}
-
-        {/* Status and Download */}
-        {file && (
-          <div className="status-container">
-            <span className="file-name">{file.name}</span>
-            <span className="status">
-              {isLoading ? (
-                <>
-                  <RiLoader2Line className="rotating" size={20} color="#0b3d91" />
-                  &nbsp; Processing...
-                </>
-              ) : conRedMessage ? (
-                (() => {
-                  // Show toast and navigate only once
-                  if (!window.__hasNavigatedToDownloads) {
-                    window.__hasNavigatedToDownloads = true;
-                    toast.success(conRedMessage || "File converted successfully!");
-                    setTimeout(() => {
-                      navigate("/downloads");
-                      window.__hasNavigatedToDownloads = false;
-                    }, 1200); // Delay for user to see the toast
-                  }
-                  return null;
-                })()
-              ) : null}
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Login popup/modal */}
@@ -337,7 +346,7 @@ const Mainpage = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

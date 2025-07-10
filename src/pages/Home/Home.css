@@ -50,6 +50,8 @@ select {
   color: #1f2937;
   line-height: 1.2;
   margin: 0;
+  margin-bottom: 10px;
+  
 }
 
 .upload-card {
