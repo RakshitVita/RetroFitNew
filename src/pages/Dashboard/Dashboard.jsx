@@ -10,6 +10,7 @@ const Dashboard = () => {
     { title: 'Alteryx', percent: 75, color: '#10b981', Icon: ClipboardList },
     { title: 'Informatica Mapping', percent: 50, color: '#06b6d4', Icon: ClipboardList },
     { title: 'Informatica Workflow', percent: 80, color: '#fbbf24', Icon: ClipboardList },
+    { title: 'Informatica Workflow', percent: 80, color: '#fbbf24', Icon: ClipboardList },
   ];
 
   return (

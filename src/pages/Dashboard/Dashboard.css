@@ -1,7 +1,7 @@
 .dashboard-container {
-  padding: 32px;
+  padding: 20px;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f3f4f6;
+
   min-height: 100vh;
   gap: 6px;
 }
@@ -19,11 +19,11 @@
 
 .progress-grid {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 10px 0;
-  scroll-behavior: smooth;
+  flex-wrap: wrap;            /* ✅ Allows cards to wrap */
+  gap: 35px;                  /* ✅ Space between cards */
+  justify-content: flex-start;
+  
+  
 }
 
 .illustration-card {
