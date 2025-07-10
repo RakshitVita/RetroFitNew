@@ -2,9 +2,24 @@ import React, { useState } from 'react';
 //import { Upload } from 'lucide-react';
 import './Home.css';
 import { FaCloudUploadAlt } from "react-icons/fa";
+import ConfirmBox from '../../components/ConfirmBox/ConfirmBox';
 
 
 const Home = () => {
+  //demo state for confirm dialog
+   const [open, setOpen] = useState(false);
+
+  const fileList = ["file1.py", "file2.sql", "module.js"];
+
+  const handleConfirm = () => {
+    console.log("Confirmed");
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    console.log("Cancelled");
+    setOpen(false);};
+
   const [isDragOver, setIsDragOver] = useState(false);
 
   const handleDragOver = (e) => {
@@ -32,6 +47,8 @@ const Home = () => {
       console.log('Files selected:', files);
     }
   };
+
+  const languages = ['Python', 'Java', 'JavaScript', 'C++', 'Ruby']; // Example languages
 
   return (
     <div className="upload-container">
@@ -63,11 +80,32 @@ const Home = () => {
             <p className="upload-main-text">
               Select a file or drag and drop here
             </p>
+            <div className="dropdown-section">
+              <label htmlFor="fileType">Choose your Code</label>
+              <select
+                id="fileType"
+                // value={fileType}
+                // onChange={handleFiletypeChange}
+              >
+                {languages.map(lang => (
+                  <option key={lang} value={lang}>{lang}</option>
+                ))}
+              </select>
+            </div>
 
             {/* Subtext */}
             <p className="upload-subtext">
               Only supported to python, java
             </p>
+                  <button onClick={() => setOpen(true)}>Open Confirm Dialog</button>
+
+      <ConfirmBox
+        open={open}
+        subtitle="All files will be processed using the 12 points you’ve submitted."
+        fileList={fileList}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
 
             {/* Select Button */}
             <label className="upload-button">

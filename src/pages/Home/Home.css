@@ -1,5 +1,28 @@
 /* FileUpload.css */
 
+.dropdown-section {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dropdown-section label {
+  font-weight: 600;
+  color: #333;
+}
+
+select {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  font-size: 14px;
+}
+
+
 .upload-container {
   min-height: 80vh;
   background-color: #f8f9fa;

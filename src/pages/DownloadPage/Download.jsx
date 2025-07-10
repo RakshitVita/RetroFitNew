@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, Box, CircularProgress, IconButton, Tooltip, TextField } from "@mui/material";
+import { Button, Box, CircularProgress, IconButton, Tooltip, TextField, Typography } from "@mui/material";
 import { FiDownload, FiInfo } from "react-icons/fi";
 // import useUserStore from "../../../Zustand_State/UserStore";
 // import useAuthStore from "../../../Zustand_State/AuthStore";
@@ -15,8 +15,7 @@ const Download = () => {
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(0);
 
-  // const [downloads, setDownloads] = useState(dummyDownloads); // use the above array
-  const downloadsLoading = false; // Simulating loading state, set to true if fetching from API
+  const downloadsLoading = false;
   const downloads = [
     {
       file_id: "001",
@@ -80,8 +79,6 @@ const Download = () => {
     }
   ];
 
-
-
   // useEffect(() => {
   //   if (authUser) {
   //     fetchDownloads();
@@ -90,8 +87,8 @@ const Download = () => {
 
   const handleDownload = async (filename, fileId) => {
     setDownloadingId(fileId);
-    await getAndDownloadFile(filename, fileId);
-    setDownloadingId(null);
+    // await getAndDownloadFile(filename, fileId);
+    setTimeout(() => setDownloadingId(null), 1000);
   };
 
   const columns = useMemo(() => [
@@ -110,9 +107,7 @@ const Download = () => {
       sortable: true,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <span className="filename-cell">
-            {params.value}
-          </span>
+          <span className="filename-cell">{params.value}</span>
           {params.row.sub_file_details?.length > 0 && (
             <Tooltip
               title={<InfoTooltip fileName={params.value} details={params.row.sub_file_details} />}
@@ -156,7 +151,6 @@ const Download = () => {
           : <span style={{ color: "#aaa" }}>N/A</span>;
       },
     },
-
     {
       field: "download",
       headerName: "Download",
@@ -167,7 +161,6 @@ const Download = () => {
           <Button
             className="Download_Button"
             variant="contained"
-            color="primary"
             size="small"
             startIcon={
               downloadingId === params.row.file_id ? (
@@ -178,8 +171,7 @@ const Download = () => {
             }
             disabled={downloadingId === params.row.file_id}
             onClick={() => handleDownload(params.row.filename, params.row.file_id)}
-          >
-          </Button>
+          />
         ) : (
           <span style={{ color: "#aaa" }}>N/A</span>
         ),
@@ -212,10 +204,22 @@ const Download = () => {
   }, [filteredRows]);
 
   return (
-    <Box sx={{ p: { xs: 1, md: 4 }, background: "#f8fafc", minHeight: "80vh" }}>
-      <Box sx={{ maxWidth: 1100, mx: "auto", background: "#fff", borderRadius: 2, boxShadow: 3, p: 3 }}>
+
+      <Box sx={{ p: { xs: 0, md: 0 }, background: "#f8fafc", minHeight: "80vh" }}>
+        <Box sx={{ mb:5}} >
+          <Typography variant="h3"  gutterBottom sx={{ fontSize: '2.5rem',color: "#5a5c69" ,}} >
+            Download Logs
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: '1.2rem',color:"#858796" }}>
+            Select code to securely access and download your documentation file. Review your download history to efficiently resume work from where you left off.
+          </Typography>
+        </Box>
+        <Box sx={{  m: "auto", background: "#fff", borderRadius: 2, boxShadow: 3, p: 2 }}>
+          {/* New Wrapper for Heading */}
+
+
         <div className="downloads-header">
-          <h2 className="downloads-title">Documents</h2>
+          <h6 className="downloads-title">Documents</h6>
           <TextField
             size="small"
             variant="outlined"
@@ -225,39 +229,34 @@ const Download = () => {
             className="downloads-search"
           />
         </div>
-        <div style={{ width: "100%" }}>
-          <DataGrid
-            autoHeight
-            rows={filteredRows}
-            columns={columns}
-            pagination
-            paginationModel={{ page, pageSize }}
-            onPaginationModelChange={({ page, pageSize }) => {
-              setPage(page);
-              setPageSize(pageSize);
-            }}
-            pageSizeOptions={[5, 10, 25, 50]}
-            loading={downloadsLoading}
-            disableSelectionOnClick
-            sx={{
-              background: "#fff",
-              borderRadius: 2,
-              "& .MuiDataGrid-columnHeaders": { background: "#e3e7fd", color: "#1a237e", fontWeight: 700 },
-              "& .MuiDataGrid-row": { fontSize: "1rem" },
-            }}
-            componentsProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 },
-              },
-            }}
-            slots={{
-              toolbar: true,
-            }}
-          />
-        </div>
+
+          <div style={{ width: "100%" }}>
+            <DataGrid
+              autoHeight
+              rows={filteredRows}
+              columns={columns}
+              pagination
+              paginationModel={{ page, pageSize }}
+              onPaginationModelChange={({ page, pageSize }) => {
+                setPage(page);
+                setPageSize(pageSize);
+              }}
+              pageSizeOptions={[5, 10, 25, 50]}
+              loading={downloadsLoading}
+              disableSelectionOnClick
+              sx={{
+                background: "#fff",
+                borderRadius: 2,
+                "& .MuiDataGrid-columnHeaders": { background: "#e3e7fd", color: "#1a237e", fontWeight: 700 },
+                "& .MuiDataGrid-row": { fontSize: "1rem", "&:hover": { backgroundColor: "#f5f7fb" } },
+                "& .MuiDataGrid-cell": { borderBottom: "1px solid #f0f0f0" },
+                "& .MuiDataGrid-footerContainer": { backgroundColor: "#f8fafc" },
+              }}
+            />
+          </div>
+        </Box>
       </Box>
-    </Box>
+  
   );
 };
 
