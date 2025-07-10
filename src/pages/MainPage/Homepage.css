@@ -1,0 +1,280 @@
+.loader-fullscreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader-icon {
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+.rotating {
+  animation: spin 1s linear infinite;
+}
+
+
+
+
+.upload-container {
+  width: 700px;
+  min-height: 60vh;
+  margin: 60px auto;
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #222;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.description {
+  color: #555;
+  margin-bottom: 30px;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.dropdown-section {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dropdown-section label {
+  font-weight: 600;
+  color: #333;
+}
+
+select {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  font-size: 14px;
+}
+
+.upload-area {
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  width: 500px;
+  max-width: 520px;
+  min-width: 220px;
+  min-height: 60px;
+  height: 150px;
+
+  border: 2px dashed #377dff;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  transition: background 0.3s ease;
+  margin: auto;
+  box-sizing: border-box;
+  overflow: hidden;
+
+}
+
+
+.upload-inline {
+  display: inline;
+  font-size: 16px;
+  vertical-align: middle;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.file-input {
+  display: none;
+  color: "#888";           
+  font-size: "11px",
+}
+.disabled-upload {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upload-label {
+  display: block;
+  cursor: pointer;
+  color: #333;
+
+}
+
+.upload-icon {
+  font-size: 28px;
+  margin-bottom: 0;
+  margin-right: 6px;
+}
+
+.upload-text {
+  font-weight: bold;
+  color: #0056d2;
+  margin-bottom: 4px;
+  font-size: 18px;
+  display: block;
+}
+
+.upload-or {
+  color: #222;
+  margin-bottom: 10px;
+  font-size: 16px;
+  display: block;
+}
+
+.file-info {
+  color: #888;
+  font-size: 13px;
+  margin-top: 8px;
+  margin-bottom: 0;
+  display: block;
+}
+
+.selected-file {
+  margin-top: 15px;
+  color: #444;
+  font-weight: bold;
+}
+
+
+.status-container {
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: 600;
+  color: #444;
+  background-color: #f0f4ff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(55, 125, 255, 0.15);
+  box-sizing: border-box;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 24px; /* Adjust for spacing between file name and status */
+}
+
+.file-name {
+  flex: 1;
+  font-weight: 700;
+  color: #333;
+  min-width: 140px;
+  word-break: break-word;
+  text-align: left;
+}
+
+.status {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.status.converting {
+  color: #0b3d91;
+}
+
+.status.converted {
+  color: #28a745;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status.converted svg {
+  fill: #28a745;
+  stroke: none;
+}
+
+/* Mainpage.css */
+.download-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0;
+}
+.download-btn:hover {
+  text-decoration: underline;
+}
+
+.rotating {
+  animation: spin 1s linear infinite;
+}
+
+.tick-icon {
+  width: 20px;
+  height: 20px;
+  fill: #28a745;
+  stroke: none;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  min-width: 300px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .upload-area {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 16px 2vw;
+    font-size: 15px;
+  }
+  .upload-inline {
+    font-size: 14px;
+  }
+}
+.error-text {
+  color: red;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+
+
+}

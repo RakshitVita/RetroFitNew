@@ -1,15 +1,15 @@
-// layout/MainLayout.jsx
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Navbar from '../../components/NavBar/Navbar';
 import { Outlet } from 'react-router-dom';
+import './MainPage.css'; // Import your CSS file
 
 const MainPage = () => (
-  <div className="flex h-screen">
+  <div className="main-page">
     <Sidebar />
-    <div className="flex flex-col flex-1 bg-gray-50 overflow-y-auto">
+    <div className="main-content">
       <Navbar />
-      <main className="p-6">
-        <Outlet /> {/* This will render the dynamic page */}
+      <main className="page-body">
+        <Outlet />
       </main>
     </div>
   </div>

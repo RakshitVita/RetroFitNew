@@ -6,6 +6,7 @@ import Home from '../pages/Home/Home.jsx';
 import Download from '../pages/DownloadPage/Download.jsx';
 import Subscription from '../pages/Subscription/Subscription.jsx';
 import Introduction from '../pages/Introduction/Introduction.jsx';
+import Homepage from '../pages/MainPage/Homepage.jsx';
 // import Home from './pages/Home';
 // import Introduction from './pages/Introduction';
 // import DownloadLog from './pages/DownloadLog';
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: '/introduction', element: <Introduction/> },
       { path: '/download-log', element:  <Download /> },
       { path: '/subscription', element:  <Subscription />},
+      { path: '/mainpage', element:  <Homepage/>},
     ],
   },
 ]);
