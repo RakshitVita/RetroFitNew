@@ -1,0 +1,89 @@
+.dashboard-card-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  padding: 0px;
+  margin-bottom: 16px;
+height: 135px;
+  min-width: 350px;   /* Ensures consistent card size */
+  max-width: 400px;
+  flex-shrink: 0;      /* Prevents card from shrinking in a flex row */
+
+  transition: transform 0.2s ease;
+}
+
+.dashboard-card-horizontal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* .card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} */
+
+.dashboard-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dashboard-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing:0.5px;
+  margin-left: 16px;
+}
+.dashboard-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left:12px;
+}
+
+.dashboard-percent {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+  margin-left: 16px;
+}
+
+
+
+.progress-bar {
+  width: 140px;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+.progress-icon {
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: -30px;
+}
+.progress-bar-wrapper {
+
+  margin-right: 30px; /* Add extra spacing before icon */
+}
