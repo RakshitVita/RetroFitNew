@@ -11,11 +11,16 @@
   padding: 0px;
   margin-bottom: 16px;
 height: 135px;
-  min-width: 350px;   /* Ensures consistent card size */
-  max-width: 400px;
+  /* min-width: 350px;   Ensures consistent card size 
+  max-width: 400px; */
   flex-shrink: 0;      /* Prevents card from shrinking in a flex row */
 
   transition: transform 0.2s ease;
+  /* flex: 1 1 calc(25% - 20px); 4 cards in a row with spacing */
+  min-width: 250px;             /* Optional fallback for very small screens */
+  max-width: 100%;
+  width: 23%;
+  margin-bottom:20px;
 }
 
 .dashboard-card-horizontal:hover {
@@ -86,4 +91,15 @@ height: 135px;
 .progress-bar-wrapper {
 
   margin-right: 30px; /* Add extra spacing before icon */
+}
+@media (max-width: 1200px) {
+  .dashboard-card-horizontal {
+    width: 48%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-card-horizontal {
+    width: 100%;
+  }
 }

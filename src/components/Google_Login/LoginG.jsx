@@ -2,8 +2,10 @@ import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import useAuthStore from '../../Zustand_State/AuthStore';
 import './LoginG.css';
+import logoPath from '../../assets/logo.png'; 
 
-const logoPath = '../assets/logo.png'; // Adjust the path as necessary
+
+//const logoPath = './assets/logo.png'; // Adjust the path as necessary
 
 const LoginG = ({ onClose }) => {
   const signup = useAuthStore((state) => state.signup);
