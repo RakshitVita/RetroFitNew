@@ -4,14 +4,23 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, 
 
 const ConfirmBox = ({
   open,
-  title = "Can you confirm that this is correct?",
+  title = "Do u want to proceed?",
   subtitle,
   fileList = [],
+  flag = true,
   onConfirm,
   onCancel,
 }) => {
   return (
-    <Dialog open={open} onClose={onCancel} maxWidth="sm" fullWidth sx={{borderRadius: 12}}>
+    <Dialog open={open} onClose={onCancel} maxWidth="sm" fullWidth
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: 6,
+          },
+        },
+      }}
+    >
       <Box
         sx={{
           background: "linear-gradient(to right, #0052D4, #4364F7)",
@@ -29,7 +38,10 @@ const ConfirmBox = ({
         </Typography>
       </Box>
 
-      <DialogContent sx={{ backgroundColor: "#f9f9f9", maxHeight: 300 }}>
+      
+
+      {Array.isArray(fileList) && fileList.length > 0 &&  (
+              <DialogContent sx={{ backgroundColor: "#f9f9f9", maxHeight: 300 }}>
         <Box
           sx={{
             padding: 2,
@@ -48,12 +60,13 @@ const ConfirmBox = ({
           </ul>
         </Box>
       </DialogContent>
-
+      )}
       <DialogActions sx={{ justifyContent: "center", paddingBottom: 3 }}>
         <Button
           onClick={onConfirm}
           variant="contained"
           sx={{ backgroundColor: "#1b873f", borderRadius: 8, minWidth: 100 }}
+          disabled={!flag}
         >
           Yes
         </Button>
@@ -65,7 +78,7 @@ const ConfirmBox = ({
           No
         </Button>
       </DialogActions>
-    </Dialog>
+    </Dialog >
   );
 };
 

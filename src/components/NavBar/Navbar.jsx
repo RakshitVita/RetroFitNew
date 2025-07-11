@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FaUser, FaCogs, FaList, FaSignOutAlt } from "react-icons/fa";
 import "./Navbar.css";
 import useAuthStore from "../../Zustand_State/AuthStore";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -42,10 +43,9 @@ const Navbar = () => {
               <FaCogs className="icon" />
               Settings
             </a> */}
-              <a className="dropdown-item" href="/dashboard">
-                <FaList className="icon" />
-                Dashboard
-              </a>
+            <Link className="dropdown-item" to="/dashboard">
+              <FaList  className="icon" /> Dashbaord</Link>
+
 
               <div className="dropdown-divider" />
               <a className="dropdown-item" onClick={logout} href="#">

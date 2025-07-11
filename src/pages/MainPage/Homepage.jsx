@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import "./Homepage.css";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import ConfirmBox from "../../components/ConfirmBox/ConfirmBox.jsx";
 
 
 let hasFetchedUserStatusGlobal = false;
@@ -24,7 +25,7 @@ const Mainpage = () => {
 
   //For DialogBox
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogData, setDialogData] = useState({ message: "", fileList: [] });
+  const [dialogData, setDialogData] = useState({ message: "", fileList: [], flag: "" });
 
   const {
     setConRedMessage,
@@ -130,54 +131,79 @@ const Mainpage = () => {
     }
     const res = await validationCheck(uploadedFile, fileType);
 
-    const messageHtml = `
-  <div style="margin-bottom: 10px;">
-    ${res?.message?.replace(/\n/g, "<br/>") || "Do you want to proceed?"}
-  </div>
-  <div style="
-    max-height: 150px;
-    overflow-y: auto;
-    background: #f1f1f1;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 13px;
-    text-align: left;
-    border: 1px solid #ddd;
-  ">
-    <ul style="margin: 0; padding-left: 20px;">
-      ${res?.processing_files_list?.map(file => `<li>${file}</li>`).join('')}
-    </ul>
-  </div>
-`;
+    setDialogData({
+      message: res?.message?.replace(/\n/g, "<br/>") || "Do you want to proceed?",
+      fileList: res?.processing_files_list || [],
+      flag: res?.flag || false,
+    })
 
-    const result = await Swal.fire({
-      title: "Are you sure?",
-      html: messageHtml,
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-      didOpen: () => {
-        // Enable or disable the "Yes" button based on res.flag
-        const confirmBtn = Swal.getConfirmButton();
-        if (confirmBtn) {
-          confirmBtn.disabled = !res?.flag;
-        }
-      }
-    });
+    setDialogOpen(true);
+
+    //     const messageHtml = `
+    //   <div style="margin-bottom: 10px;">
+    //     ${res?.message?.replace(/\n/g, "<br/>") || "Do you want to proceed?"}
+    //   </div>
+    //   <div style="
+    //     max-height: 150px;
+    //     overflow-y: auto;
+    //     background: #f1f1f1;
+    //     padding: 10px;
+    //     border-radius: 5px;
+    //     font-size: 13px;
+    //     text-align: left;
+    //     border: 1px solid #ddd;
+    //   ">
+    //     <ul style="margin: 0; padding-left: 20px;">
+    //       ${res?.processing_files_list?.map(file => `<li>${file}</li>`).join('')}
+    //     </ul>
+    //   </div>
+    // `;
+
+    //     const result = await Swal.fire({
+    //       title: "Are you sure?",
+    //       html: messageHtml,
+    //       showCancelButton: true,
+    //       confirmButtonText: "Yes",
+    //       cancelButtonText: "No",
+    //       didOpen: () => {
+    //         // Enable or disable the "Yes" button based on res.flag
+    //         const confirmBtn = Swal.getConfirmButton();
+    //         if (confirmBtn) {
+    //           confirmBtn.disabled = !res?.flag;
+    //         }
+    //       }
+    //     });
 
 
-    if (!result.isConfirmed) {
-      setFile(null);
-      setConRedMessage(""); // <-- Reset here too
-      if (fileInputRef.current) fileInputRef.current.value = ""; // <-- Reset here
-      return;
-    }
+    // if (!result.isConfirmed) {
+    //   setFile(null);
+    //   setConRedMessage(""); // <-- Reset here too
+    //   if (fileInputRef.current) fileInputRef.current.value = ""; // <-- Reset here
+    //   return;
+    // }
 
     // setIsLoading(true);
 
-    await convertFile(uploadedFile, fileType);
+    // await convertFile(uploadedFile, fileType);
 
 
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleDialogConfirm = async () => {
+    setDialogOpen(false);
+    if (!file) return;
+
+    await convertFile(file, fileType);
+
+    // Clear file input
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleDialogCancel = () => {
+    setDialogOpen(false);
+    setFile(null);
+    setConRedMessage("");
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -230,128 +256,141 @@ const Mainpage = () => {
   }
 
   return (
-    <div className="upload-container">
-      <div className="upload-wrapper">
-        {/* Header */}
-        <div className="upload-header">
-          <h1 className="upload-title">
-            From Roadblock to Roadmap — Documentation<br />
-            That Gets You Back on Track.
-          </h1>
-        </div>
-        <div
-          className={`upload-area ${isDragOver ? 'dragover' : ''}`}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-        >
-          {/* Upload Icon */}
-          <div className="upload-icon-wrapper">
-            <div className="upload-icon">
-              <FaCloudUploadAlt size={64} color="adb5bd" />
-            </div>
+    <>
+      <div className="upload-container">
+        <div className="upload-wrapper">
+          {/* Header */}
+          <div className="upload-header">
+            <h1 className="upload-title">
+              From Roadblock to Roadmap — Documentation<br />
+              That Gets You Back on Track.
+            </h1>
           </div>
-
-          <p className="upload-main-text">
-            Select a file or drag and drop here
-          </p>
-
-          <div className="dropdown-section">
-            <label htmlFor="fileType">Choose your Code</label>
-            <select
-              id="fileType"
-              value={fileType}
-              onChange={handleFiletypeChange}
-            >
-              {languages.map(lang => (
-                <option key={lang} value={lang}>{lang}</option>
-              ))}
-            </select>
-          </div>
-          <div className="file-info">
-            {fileType && extensions[fileType]
-              ? `Allowed: ${extensions[fileType].join(", ")}`
-              : ""}
-            &nbsp; (max: 10MB). Up to 400 lines of code allowed.
-          </div>
-
-          {/* Error messages */}
-          {lineLimitError && <p className='error-text'> {lineLimitError} </p>}
-          {formatError && <p className="error-text">{formatError}</p>}
-          {languagelimiterror && (
-            <p style={{ color: 'red', marginTop: '8px' }}>
-              This language is not allowed for your account. Allowed: {allowedLanguages.join(", ")}
-            </p>
-          )}
-
-          {/* Status and Download */}
-          {file && (
-            <div className="status-container">
-              <span className="file-name">{file.name}</span>
-              <span className="status">
-                {isLoading ? (
-                  <>
-                    <RiLoader2Line className="rotating" size={20} color="#0b3d91" />
-                    &nbsp; Processing...
-                  </>
-                ) : conRedMessage ? (
-                  (() => {
-                    // Show toast and navigate only once
-                    if (!window.__hasNavigatedToDownloads) {
-                      window.__hasNavigatedToDownloads = true;
-                      toast.success(conRedMessage || "File converted successfully!");
-                      setTimeout(() => {
-                        navigate("/downloads");
-                        window.__hasNavigatedToDownloads = false;
-                      }, 1200); // Delay for user to see the toast
-                    }
-                    return null;
-                  })()
-                ) : null}
-              </span>
-            </div>
-          )}
-
-
-
-          <label
-            className={`upload-button ${!allowedLanguages.includes(fileType) ? 'disabled-upload' : ''}`}
-            onClick={handleUploadAreaClick}
+          <div
+            // htmlFor="fileUpload"
+            className={`upload-area ${isDragOver ? 'dragover' : ''}`}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            tabIndex={0}
-            style={{ cursor: "pointer" }}
+            onDragLeave={handleDragLeave}
           >
+            {/* Upload Icon */}
+            <div className="upload-icon-wrapper">
+              <div className="upload-icon">
+                <FaCloudUploadAlt size={64} color="adb5bd" />
+              </div>
+            </div>
 
+            <p className="upload-main-text">
+              Select a file or drag and drop here
+            </p>
+
+            <div className="dropdown-section">
+              <label htmlFor="fileType">Choose your Code</label>
+              <select
+                id="fileType"
+                value={fileType}
+                onChange={handleFiletypeChange}
+              >
+                {languages.map(lang => (
+                  <option key={lang} value={lang}>{lang}</option>
+                ))}
+              </select>
+            </div>
+            <div className="file-info">
+              {fileType && extensions[fileType]
+                ? `Allowed: ${extensions[fileType].join(", ")}`
+                : ""}
+              &nbsp; (max: 10MB). Up to 400 lines of code allowed.
+            </div>
+
+            {/* Error messages */}
+            {lineLimitError && <p className='error-text'> {lineLimitError} </p>}
+            {formatError && <p className="error-text">{formatError}</p>}
+            {languagelimiterror && (
+              <p style={{ color: 'red', marginTop: '8px' }}>
+                This language is not allowed for your account. Allowed: {allowedLanguages.join(", ")}
+              </p>
+            )}
+
+            {/* Status and Download */}
+            {file && (
+              <div className="status-container">
+                <span className="file-name">{file.name}</span>
+                <span className="status">
+                  {isLoading ? (
+                    <>
+                      <RiLoader2Line className="rotating" size={20} color="#0b3d91" />
+                      &nbsp; Processing...
+                    </>
+                  ) : conRedMessage ? (
+                    (() => {
+                      // Show toast and navigate only once
+                      if (!window.__hasNavigatedToDownloads) {
+                        window.__hasNavigatedToDownloads = true;
+                        toast.success(conRedMessage || "File converted successfully!");
+                        setTimeout(() => {
+                          navigate("/downloads");
+                          window.__hasNavigatedToDownloads = false;
+                        }, 1200); // Delay for user to see the toast
+                      }
+                      return null;
+                    })()
+                  ) : null}
+                </span>
+              </div>
+            )}
+
+
+
+            <label
+              htmlFor="fileUpload"
+              className={`upload-button ${!allowedLanguages.includes(fileType) ? 'disabled-upload' : ''}`}
+              onClick={handleUploadAreaClick}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              tabIndex={0}
+              style={{ cursor: "pointer" }}
+            >
+              Select a File
+            </label>
             <input
               type="file"
               id="fileUpload"
               className="file-input"
               onChange={handleFileChange}
-              tabIndex={-1}
+              tabIndex={0}
               ref={fileInputRef}
               style={{ display: "none" }}
             />
-            Select a File
-          </label>
-        </div>
-      </div>
-
-      {/* Login popup/modal */}
-      {showLoginPopup && (
-        <div
-          className="modal-backdrop"
-          onClick={() => setShowLoginPopup(false)}
-        >
-          <div
-            className="modal-content"
-            onClick={e => e.stopPropagation()}
-          >
-            <LoginG onClose={() => setShowLoginPopup(false)} />
           </div>
         </div>
-      )}
-    </div>
+
+        {/* Login popup/modal */}
+        {showLoginPopup && (
+          <div
+            className="modal-backdrop"
+            onClick={() => setShowLoginPopup(false)}
+          >
+            <div
+              className="modal-content"
+              onClick={e => e.stopPropagation()}
+            >
+              <LoginG onClose={() => setShowLoginPopup(false)} />
+            </div>
+          </div>
+        )}
+      </div>
+      <ConfirmBox
+        open={dialogOpen}
+        subtitle={dialogData.message}
+        fileList={dialogData.fileList}
+        flag={dialogData.flag}
+        onConfirm={handleDialogConfirm}
+        onCancel={handleDialogCancel}
+      />
+
+
+    </>
   );
 };
 
